@@ -18,21 +18,21 @@ end
 ## Docs
 
 - Create required directory:
-```
+```bash
 mkdir -p sys_dir
 mkdir -p git_home_dir/foo
 git init --bare git_home_dir/foo/my-app.git
 ```
 
 - Create SSH server keys using:
-```
+```bash
 ssh-keygen -N '' -b 1024 -t rsa -f sys_dir/ssh_host_rsa_key
 ```
 
 - Add `:gixir_server` to application list(if running old format mix)
 
 - Create your Auth module :
-```
+```elixir
 defmodule MyApp.UserAuth do
   @behaviour GixirServer.User
 
@@ -42,14 +42,14 @@ defmodule MyApp.UserAuth do
   end
 
   def is_allowed?(%GixirServer.User{} = _current_user, _action, _repository) do
-    #check if currently user can run the action on this repo
+    #check if current user can run the action on this repo
     true
   end
 end
 ```
 
 - Configure your ssh server:
-```
+```elixir
 config :gixir_server, GixirServer,
     system_dir: "sys_dir/",
     port: 2223,
@@ -59,13 +59,13 @@ config :gixir_server, GixirServer,
 ```
 
 - Run your Elixir app:
-```
+```elixir
 iex -S mix
 iex(1)>
 ```
 
 - Clone your repo:
-```
+```bash
 $ git clone ssh://git@localhost:2223/foo/my-app.git
 $ cd my-app
 $ touch README.md
