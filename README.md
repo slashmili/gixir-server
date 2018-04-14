@@ -1,21 +1,38 @@
 # GixirServer
 
-**TODO: Add description**
+Gixir is a small and extendable Git server currently only working over SSH using [Erlang :ssh](http://erlang.org/doc/man/ssh.html) as SSH server.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+The package can be installed
 by adding `gixir_server` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:gixir_server, "~> 0.1.0"}
+    {:gixir_server, github: "slashmili/gixir-server"}
   ]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/gixir_server](https://hexdocs.pm/gixir_server).
+## Docs
 
+- Create SSH server keys using :
+```
+mkdir -p sys_dir
+ssh-keygen -N '' -b 1024 -t rsa -f sys_dir/ssh_host_rsa_key
+```
+
+- Add `:gixir_server` to application list
+
+- Create your Auth module :
+```
+def
+```
+- Configure your ssh server:
+```
+config :gixir_server, GixirServer,
+    system_dir: "sys_dir/",
+    port: 2223,
+    auth_user: MyApp.UserAuth
+```
