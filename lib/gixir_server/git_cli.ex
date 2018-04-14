@@ -37,9 +37,11 @@ defmodule GixirServer.GitCli do
     port =
       with {:ok, session} <- SshSession.get(cm),
            {:ok, command} <- GixirServer.Ssh.get_git_command(to_string(cmd), session.user) do
+        conf = Application.get_env(:gixir_server, GixirServer)
+        git_dir = conf[:git_bin_dir] || "/usr/local/bin/"
         [command, arg01] = String.split(command)
         opts = [:binary, :exit_status, {:args, [arg01]}]
-        git_cmd = "/usr/local/bin/#{command}"
+        git_cmd = "#{git_dir}#{command}"
         Port.open({:spawn_executable, git_cmd}, opts)
       else
         oth ->

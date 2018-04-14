@@ -69,7 +69,7 @@ defmodule GixirServer.Ssh do
   end
 
   defp find_repo_full_path(username, repository) do
-    conf = Application.get_env(:git_werk, GitWerk.Projects.Git)
+    conf = Application.get_env(:gixir_server, GixirServer)
     repo_path = "#{conf[:git_home_dir]}/#{username}/#{repository}.git"
 
     if File.exists?(repo_path) do

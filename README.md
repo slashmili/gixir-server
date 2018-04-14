@@ -17,22 +17,43 @@ end
 
 ## Docs
 
-- Create SSH server keys using :
+- Create required directory:
+
 ```
 mkdir -p sys_dir
+mkdir -p git_home_dir
+```
+- Create SSH server keys using:
+```
 ssh-keygen -N '' -b 1024 -t rsa -f sys_dir/ssh_host_rsa_key
 ```
 
 - Add `:gixir_server` to application list
 
 - Create your Auth module :
+
 ```
-def
+defmodule MyApp.UserAuth do
+  @behaviour GixirServer.User
+
+  def get_user_by_key(_pub_key) do
+    # look up in your db to find the pub_key
+    %GixirServer.User{username: "my_user"}
+  end
+
+  def is_allowed?(%GixirServer.User{} = _current_user, _action, _repository) do
+    #check if currently user can run the action on this repo
+    true
+  end
+end
 ```
+
 - Configure your ssh server:
 ```
 config :gixir_server, GixirServer,
     system_dir: "sys_dir/",
     port: 2223,
-    auth_user: MyApp.UserAuth
+    auth_user: MyApp.UserAuth,
+    git_home_dir: "git_home_dir",
+    git_bin_dir: "/usr/local/bin/"
 ```
