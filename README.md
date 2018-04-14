@@ -18,20 +18,20 @@ end
 ## Docs
 
 - Create required directory:
-
 ```
 mkdir -p sys_dir
-mkdir -p git_home_dir
+mkdir -p git_home_dir/foo
+git init --bare git_home_dir/foo/my-app.git
 ```
+
 - Create SSH server keys using:
 ```
 ssh-keygen -N '' -b 1024 -t rsa -f sys_dir/ssh_host_rsa_key
 ```
 
-- Add `:gixir_server` to application list
+- Add `:gixir_server` to application list(if running old format mix)
 
 - Create your Auth module :
-
 ```
 defmodule MyApp.UserAuth do
   @behaviour GixirServer.User
@@ -56,4 +56,28 @@ config :gixir_server, GixirServer,
     auth_user: MyApp.UserAuth,
     git_home_dir: "git_home_dir",
     git_bin_dir: "/usr/local/bin/"
+```
+
+- Run your Elixir app:
+```
+iex -S mix
+iex(1)>
+```
+
+- Clone your repo:
+```
+$ git clone ssh://git@localhost:2223/foo/my-app.git
+$ cd my-app
+$ touch README.md
+$ git add README.md
+$ git commit -m "hello"
+[master (root-commit) e1aa6d0] hello
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 README.md
+$ git push origin HEAD
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 212 bytes | 212.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To ssh://localhost:2223/foo/my-app.git
+ * [new branch]      HEAD -> master
 ```
