@@ -81,3 +81,7 @@ Total 3 (delta 0), reused 0 (delta 0)
 To ssh://localhost:2223/foo/my-app.git
  * [new branch]      HEAD -> master
 ```
+
+# TODO:
+
+- bring tests from [gitwerk](https://github.com/carloslima/gitwerk/tree/master/test/git_werk_guts) ssh section to here
