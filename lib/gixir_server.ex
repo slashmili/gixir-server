@@ -34,6 +34,8 @@ defmodule GixirServer do
         ssh_cli: {GixirServer.GitCli, []}
       )
 
+    Process.link(ssh_pid)
+
     {:noreply, %{state | ssh_pid: ssh_pid}}
   end
 
